@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Hotel Booking Registration Form</title>
+    <script>
+      function calculateTotalCost() {
+        var roomRate = document.getElementById("room-type").value === "Delux Room" ? 2500 : 4000;
+        var amenitiesCost = 0;
+        var amenities = document.getElementsByName("amenities");
+        for (var i = 0; i < amenities.length; i++) {
+          if (amenities[i].checked) {
+            if (amenities[i].value === "AC") {
+              amenitiesCost += 1000;
+            } else if (amenities[i].value === "Locker") {
+              amenitiesCost += 300;
+            }
+          }
+        }
+        
+        var totalNoOfDays = parseInt(document.getElementById("total-days").value);
+        var totalRoomCost = roomRate * totalNoOfDays;
+        var totalAmenitiesCost = amenitiesCost * totalNoOfDays;
+        
+        document.getElementById("total-room-cost").value = totalRoomCost;
+        document.getElementById("total-amenities-cost").value = totalAmenitiesCost;
+        
+        calculateTotalAmount();
+      }
+      
+      function calculateTotalAmount() {
+        var totalRoomCost = parseInt(document.getElementById("total-room-cost").value);
+        var totalAmenitiesCost = parseInt(document.getElementById("total-amenities-cost").value);
+        var totalAmount = totalRoomCost + totalAmenitiesCost;
+        var advanceAmount = parseInt(document.getElementById("advance-amount").value);
+        var balance = totalAmount - advanceAmount;
+        
+        document.getElementById("total-cost").value = totalAmount;
+        document.getElementById("balance").value = balance;
+      }
+    </script>
+</head>
+<body>
+    <h1>Hotel Booking Registration Form</h1>
+    <form>
+      <h2>Customer Info</h2>
+      <label for="customer-name">Customer Name:</label>
+      <input type="text" id="customer-name" required><br>
+      <label for="check-in-date">Check-in Date:</label>
+      <input type="date" id="check-in-date" required><br>
+      <label for="total-days">Total No of Days:</label>
+      <input type="number" id="total-days" required><br>
+      <label for="total-persons">Total No of Persons:</label>
+      <input type="number" id="total-persons" required><br>
+      
+      <h2>Room Information</h2>
+      <label for="room-type">Room Type:</label>
+      <select id="room-type" onchange="calculateTotalCost()">
+        <option value="Delux Room">Delux Room</option>
+        <option value="Suite Room">Suite Room</option>
+      </select><br>
+      
+      <label for="amenities">Amenities:</label>
+      <input type="checkbox" name="amenities" value="AC" onchange="calculateTotalCost()"> AC
+      <input type="checkbox" name="amenities" value="Locker" onchange="calculateTotalCost()"> Locker<br>
+      
+      <h2>Room Rates</h2>
+      <p>Delux Room: 2500/-</p>
+      <p>Suite Room: 4000/-</p>
+      <p>AC: 1000/-</p>
+      <p>Locker: 300/-</p>
+      
+      <h2>Advance Payment</h2>
+      <label for="advance-amount">Advance Amount:</label>
+      <input type="number" id="advance-amount" onchange="calculateTotalAmount()" required><br>
+      
+      <h2>Balance Amount</h2>
+      <label for="balance">Balance:</label>
+      <input type="text" id="balance" readonly><br>
+      
+      <h2>Total Cost Calculation</h2>
+      <label for="total-room-cost">Total Room Cost:</label>
+      <input type="text" id="total-room-cost" readonly><br>
+      <label for="total-amenities-cost">Total Amenities Cost:</label>
+      <input type="text" id="total-amenities-cost" readonly><br>
+      <label for="total-cost">Total Cost:</label>
+      <input type="text" id="total-cost" readonly><br>
+      
+      <h2>Additional Charges</h2>
+      <p>Upto 2 People: No Change in Cost</p>
+      <p>Per Day Cost for Extra Person: 1000/-</p>
+    </form>
+  </body>
+  </html>
